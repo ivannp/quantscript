@@ -24,7 +24,46 @@ summarizeDailyReturns = function(
 
    if( missing( stopLoss ) )
    {
-      if( tolower( returns ) == "opentoclose" )
+      if( tolower( returns ) == "tradeonopen" )
+      {
+         stopifnot( has.Op( ss ) && has.Cl( ss ) )
+
+         # First filter out the common dates
+         mm = merge( indicator, Op( ss ), Cl( ss ), na.trim( lag( Cl( ss ) ) ), all=FALSE )
+
+         ind = as.vector( mm[,1] )
+         op = as.vector( mm[,2] )
+         cl = as.vector( mm[,3] )
+         prevClose = as.vector( mm[,4] )
+
+         len = length( op )
+         if( len < 2 ) return( NULL )
+
+         rr = rep( NA, len )
+
+         prevInd = 0
+
+         for( ii in 2:len )
+         {
+            if( sign( prevInd ) != sign( ind[ii] ) )
+            {
+               r1 = op[ii] / prevClose[ii] - 1
+               r2 = cl[ii] / op[ii] - 1
+
+               rr[ii] = ( prevInd * r1 + ind[ii] * r2 + prevInd * r1 * ind[ii] * r2 )*ind[ii]
+            }
+            else
+            {
+               # No change in position, use close to close
+               rr[ii] = ( cl[ii] / prevClose[ii] - 1 )*ind[ii]
+            }
+
+            prevInd = ind[ii]
+         }
+
+         rets = na.trim( xts( rr, order.by=index( mm ) ) )
+      }
+      else if( tolower( returns ) == "opentoclose" )
       {
          stopifnot( has.Op( ss ) && has.Cl( ss ) )
          rets = Cl( ss ) / Op( ss ) - 1
