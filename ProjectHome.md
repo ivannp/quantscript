@@ -1,0 +1,1 @@
+Scripts to automate repetitive daily tasks supporting (hobby) trading.
