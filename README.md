@@ -53,8 +53,9 @@ Another option is to rebuild the data for the comex exchange. This drops and cre
 
 ```
 python eoddata.py --verbose --build-exchange COMEX
-Notice that the location of the zip files does not have to be provided on the command line - the default location is configured in eoddata.ini, namely the value of the Dir setting under the exchange section. All *zip files under this location are used to build the exchange.
 ```
+
+Notice that the location of the zip files does not have to be provided on the command line - the default location is configured in eoddata.ini, namely the value of the Dir setting under the exchange section. All *zip files under this location are used to build the exchange.
 
 Last, one can rebuild all configured exchanges at once.
 
