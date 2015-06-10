@@ -22,7 +22,7 @@ The project also contains **daily.sh** which is the script I run from my cron jo
 
 One more file worth mentioning - **eoddata.R**, which contains utility functions to ease a few R tasks.
 
-The Database
+## The Database
 The database structure is very simple at the moment. For each exchange from the ini file, there is a table. The table has the following format:
 
 **Symbol, Timestamp, Open, High, Low, Close, Volume**
